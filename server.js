@@ -4,6 +4,7 @@ const app = express();
 var uniqid = require('uniqid');
 const data = require('./db/db.json');
 const fs = require('fs');
+const router = express.Router();
 
 // bring in midddleware
 app.use(express.json());
@@ -30,19 +31,20 @@ app.get('/api/notes', function (req, res) {
 app.post('/api/notes', function (req, res) {
   console.log(req.body.text + " line 31");
   //req.body.title
-  const note = data
-  data.push({ 'title': req.body.title, 'text': req.body.text });
+  const note = data;
+  var id = uniqid();
+  data.push({ 'id': id, 'title': req.body.title, 'text': req.body.text });
   
-  fs.appendFile('./db/db.json', JSON.stringify(note), (err)=> {
+  fs.writeFile('./db/db.json', JSON.stringify(note), (err)=> {
     if (err) console.log('did not work')
   });
   
-  console.log(req.body)
+  console.log(req.body);
+  
 });
 
-app.get('/api/notes', function(req, res) {
-  res.data
-})
+// add unique identifier to JSON object
+
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
