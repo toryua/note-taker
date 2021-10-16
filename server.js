@@ -29,21 +29,21 @@ app.get('/api/notes', function (req, res) {
 });
 
 app.post('/api/notes', function (req, res) {
-  console.log(req.body.text + " line 31");
-  //req.body.title
   const note = data;
+ // add unique identifier to JSON object
   var id = uniqid();
   data.push({ 'id': id, 'title': req.body.title, 'text': req.body.text });
   
   fs.writeFile('./db/db.json', JSON.stringify(note), (err)=> {
-    if (err) console.log('did not work')
+    if (err) console.log('did not work');
+    
   });
   
   console.log(req.body);
   
 });
 
-// add unique identifier to JSON object
+
 
 
 app.listen(PORT, () => {
